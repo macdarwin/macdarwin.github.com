@@ -9,7 +9,7 @@
   <meta name="author" content="Guillaume Fradet">
 
   
-  <meta name="description" content="Installation of an Octopress Blog engine on Windows First, sorry for my english that might sometimes be hard to understand sometimes&#8230; This post &hellip;">
+  <meta name="description" content="We have done a new install of Zabbix Server under Debian 6. We followed different how-to found on the web like https://www.zabbix.com/documentation/2 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,58 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/04/snmp-build-unknown-failure-error-with-zabbix-server-2-dot-0-4-on-debian-6/">&#8216;Snmp_build: Unknown Failure&#8217; Error With Zabbix Server 2.0.4 on Debian 6</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-04T13:36:00+01:00" pubdate data-updated="true">Jan 4<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>We have done a new install of Zabbix Server under Debian 6.</p>
+
+<p>We followed different how-to found on the web like <a href="https://www.zabbix.com/documentation/2.0/manual/installation/install">https://www.zabbix.com/documentation/2.0/manual/installation/install</a>  or <a href="http://denisrosenkranz.com/installation-de-zabbix-2-0-2-sous-debian-6/">http://denisrosenkranz.com/installation-de-zabbix-2-0-2-sous-debian-6/</a>.</p>
+
+<p>Everything works like a charm except some problems with the SNMP. In log error: <strong>&#8220;snmp_build: unknown failure&#8221;</strong>.</p>
+
+<p>In fact, the server wasn&#8217;t able to discover snmp service because:</p>
+
+<ul>
+<li>It needs MIBs to work well.</li>
+<li>Out of the box Debian don&#8217;t have any default MIBs installed on it because of license incompatibility.</li>
+</ul>
+
+
+<p>So we install <strong>snmp-mibs-downloader</strong> but this package is a <strong>non-free</strong> package. To be able to install it via apt-get we change our apt/sources.list to add non-free package.</p>
+
+<p>This <strong>&#8220;snmp_build: unknown failure&#8221;</strong> isn&#8217;t really explicit but solution is really easy.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -205,6 +257,10 @@ rake install
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/01/04/snmp-build-unknown-failure-error-with-zabbix-server-2-dot-0-4-on-debian-6/">&#8216;snmp_build: unknown failure&#8217; error with Zabbix Server 2.0.4 on Debian 6</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/12/26/octopress-for-windows/">Octopress for Windows</a>
       </li>
     
@@ -222,7 +278,7 @@ rake install
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - Guillaume Fradet -
+  Copyright &copy; 2013 - Guillaume Fradet -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

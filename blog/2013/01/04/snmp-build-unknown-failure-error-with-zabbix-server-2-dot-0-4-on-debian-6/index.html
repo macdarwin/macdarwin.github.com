@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Blog Archive - Macdarwin's thoughts</title>
+  <title>'snmp_build: unknown failure' error with Zabbix Server 2.0.4 on Debian 6 - Macdarwin's thoughts</title>
   <meta name="author" content="Guillaume Fradet">
 
   
-  <meta name="description" content="Blog Archive 2013 &#8216;snmp_build: unknown failure&#8217; error with Zabbix Server 2.0.4 on Debian 6
-Jan 04 2013 posted in servers, zabbix 2012 &hellip;">
+  <meta name="description" content="We have done a new install of Zabbix Server under Debian 6. We followed different how-to found on the web like https://www.zabbix.com/documentation/2 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@ Jan 04 2013 posted in servers, zabbix 2012 &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://macdarwin.github.com/blog/archives/">
+  <link rel="canonical" href="http://macdarwin.github.com/blog/2013/01/04/snmp-build-unknown-failure-error-with-zabbix-server-2-dot-0-4-on-debian-6/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -76,52 +75,100 @@ Jan 04 2013 posted in servers, zabbix 2012 &hellip;">
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Blog Archive</h1>
+    
+      <h1 class="entry-title">'Snmp_build: Unknown Failure' Error With Zabbix Server 2.0.4 on Debian 6</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-04T13:36:00+01:00" pubdate data-updated="true">Jan 4<span>th</span>, 2013</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives">
 
 
+<div class="entry-content"><p>We have done a new install of Zabbix Server under Debian 6.</p>
 
-  
-  <h2>2013</h2>
+<p>We followed different how-to found on the web like <a href="https://www.zabbix.com/documentation/2.0/manual/installation/install">https://www.zabbix.com/documentation/2.0/manual/installation/install</a>  or <a href="http://denisrosenkranz.com/installation-de-zabbix-2-0-2-sous-debian-6/">http://denisrosenkranz.com/installation-de-zabbix-2-0-2-sous-debian-6/</a>.</p>
 
-<article>
-  
-<h1><a href="/blog/2013/01/04/snmp-build-unknown-failure-error-with-zabbix-server-2-dot-0-4-on-debian-6/">&#8216;snmp_build: unknown failure&#8217; error with Zabbix Server 2.0.4 on Debian 6</a></h1>
-<time datetime="2013-01-04T13:36:00+01:00" pubdate><span class='month'>Jan</span> <span class='day'>04</span> <span class='year'>2013</span></time>
+<p>Everything works like a charm except some problems with the SNMP. In log error: <strong>&#8220;snmp_build: unknown failure&#8221;</strong>.</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/servers/'>servers</a>, <a class='category' href='/blog/categories/zabbix/'>zabbix</a></span>
-</footer>
+<p>In fact, the server wasn&#8217;t able to discover snmp service because:</p>
 
-
-</article>
+<ul>
+<li>It needs MIBs to work well.</li>
+<li>Out of the box Debian don&#8217;t have any default MIBs installed on it because of license incompatibility.</li>
+</ul>
 
 
+<p>So we install <strong>snmp-mibs-downloader</strong> but this package is a <strong>non-free</strong> package. To be able to install it via apt-get we change our apt/sources.list to add non-free package.</p>
 
-  
-  <h2>2012</h2>
-
-<article>
-  
-<h1><a href="/blog/2012/12/26/octopress-for-windows/">Octopress for Windows</a></h1>
-<time datetime="2012-12-26T21:15:00+01:00" pubdate><span class='month'>Dec</span> <span class='day'>26</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/octopress/'>Octopress</a>, <a class='category' href='/blog/categories/windows/'>Windows</a></span>
-</footer>
-
-
-</article>
-
+<p>This <strong>&#8220;snmp_build: unknown failure&#8221;</strong> isn&#8217;t really explicit but solution is really easy.</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Guillaume Fradet</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-04T13:36:00+01:00" pubdate data-updated="true">Jan 4<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/servers/'>servers</a>, <a class='category' href='/blog/categories/zabbix/'>zabbix</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://macdarwin.github.com/blog/2013/01/04/snmp-build-unknown-failure-error-with-zabbix-server-2-dot-0-4-on-debian-6/" data-via="" data-counturl="http://macdarwin.github.com/blog/2013/01/04/snmp-build-unknown-failure-error-with-zabbix-server-2-dot-0-4-on-debian-6/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/12/26/octopress-for-windows/" title="Previous Post: Octopress for Windows">&laquo; Octopress for Windows</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
 </div>
