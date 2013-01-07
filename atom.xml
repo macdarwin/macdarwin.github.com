@@ -4,7 +4,7 @@
   <title><![CDATA[Macdarwin's thoughts]]></title>
   <link href="http://macdarwin.github.com/atom.xml" rel="self"/>
   <link href="http://macdarwin.github.com/"/>
-  <updated>2013-01-04T13:53:26+01:00</updated>
+  <updated>2013-01-07T18:51:34+01:00</updated>
   <id>http://macdarwin.github.com/</id>
   <author>
     <name><![CDATA[Guillaume Fradet]]></name>
@@ -12,6 +12,170 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Zabbix and PHP Weathermap]]></title>
+    <link href="http://macdarwin.github.com/blog/2013/01/07/zabbix-and-php-weathermap/"/>
+    <updated>2013-01-07T17:48:00+01:00</updated>
+    <id>http://macdarwin.github.com/blog/2013/01/07/zabbix-and-php-weathermap</id>
+    <content type="html"><![CDATA[<h2>My sources</h2>
+
+<p>There is out there some people that wonder about using <a href="http://www.network-weathermap.com/">PHP Weathermap</a>  into <a href="http://www.zabbix.com/">Zabbix</a> monitoring system like:</p>
+
+<ul>
+<li><a href="http://julien.recurt.fr/2010/11/php-weathermap-zabbix/">http://julien.recurt.fr/2010/11/php-weathermap-zabbix/</a></li>
+<li><a href="http://amousset.fr/blog/weathermap-zabbix/">http://amousset.fr/blog/weathermap-zabbix/</a></li>
+</ul>
+
+
+<p>They develop an adapter to use Zabbix data into Weathermap. But for me the configuration is a pain&#8230;</p>
+
+<p>The syntax here is : &#8220;TARGET zabbix:in:out&#8221; where in and out is IDs of Zabbix items.</p>
+
+<p>Like : <strong>&#8220;TARGET zabbix:42720:23453&#8221;</strong></p>
+
+<h2>in:out with Zabbix syntax</h2>
+
+<p>When you configure Zabbix label you have to do some sort of scripting.
+Like : {Srx:ifInOctets[fe-0/0/1.30].avg(120)}</p>
+
+<p>It say to zabbix to generate the value of :</p>
+
+<ul>
+<li>Hosts name : Srx</li>
+<li>Item name : ifInOctets[fe-0/0/1.30] (it could be ifInOctets[eth0] on other hosts)</li>
+<li>Calculation : average for the last 120 seconds</li>
+</ul>
+
+
+<p>My goal is just to use the same syntax without calculation right now.</p>
+
+<p>PHP Weathermap config that I get is : &#8220;TARGET zabbix:in:out&#8221; where in and out is Zabbix label scripting syntaxt.</p>
+
+<p>Like: <strong>&#8220;TARGET zabbix:{Srx:ifInOctets[fe-0/0/1.30]}:{Srx:ifOutOctets[fe-0/0/1.30]}&#8221;</strong></p>
+
+<p>This is for me much more easier to configure with that syntax.</p>
+
+<h2>Result</h2>
+
+<div><script src='https://gist.github.com/4476732.js'></script>
+<noscript><pre><code>&lt;?php
+// Zabbix Pluggable datasource for PHP Weathermap 0.9
+// - read a pair of values from a database, and return it
+// TARGET zabbix:in:out
+
+//ini_set('display_errors', 'On');
+//error_reporting(E_ALL);
+
+class WeatherMapDataSource_zabbix extends WeatherMapDataSource {
+
+    function Init(&amp;$map)
+    {
+        $db_type = 'mysql';
+        $db_host = '';
+        $db_name = '';
+        $db_user = '';
+        $db_pass = '';
+
+        try {
+            $this-&gt;db = new PDO($db_type . &quot;:host=&quot; . $db_host . &quot;;dbname=&quot; . $db_name, $db_user, $db_pass);
+            $this-&gt;db-&gt;setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            return(TRUE);
+        }
+        catch(PDOException $e) {
+            warn('Zabbix ReadData: Error connecting to database: ' . $e-&gt;getMessage());
+            return FALSE;
+        }
+    }
+
+    function Recognise($targetstring)
+    {
+        if(preg_match(&quot;/^zabbix:{(.*)}:{(.*)}$/&quot;,$targetstring,$matches))
+        {
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+
+    function ReadData($targetstring, &amp;$map, &amp;$item)
+    {
+        $data[IN] = NULL;
+        $data[OUT] = NULL;
+        $data_time = 0;
+
+        if(preg_match(&quot;/^zabbix:{(.*)}:{(.*)}$/&quot;,$targetstring,$matches))
+        {
+            $raw_in = $matches[1]; //mysql_real_escape_string($matches[1]);
+            $raw_out= $matches[2]; //mysql_real_escape_string($matches[2]);
+
+            debug (&quot;Found for IN Value :  $raw_in&quot;);
+            debug (&quot;Found for OUT Value :  $raw_out&quot;);
+
+        $inArgs = preg_split('/\:/', $raw_in);
+            $outArgs = preg_split('/\:/', $raw_out);
+
+            $SQL_IN = &quot;select lastvalue as value, hosts.error as herror from items LEFT JOIN hosts on items.hostid = hosts.hostid where key_ = ? and hosts.host = ? limit 1&quot;;
+            $SQL_OUT = &quot;select lastvalue as value, lastclock as clock, hosts.error as herror from items LEFT JOIN hosts on items.hostid = hosts.hostid where key_ = ? and hosts.host = ? limit 1&quot;;
+
+            $query_in = $this-&gt;db-&gt;prepare($SQL_IN);
+            $query_out = $this-&gt;db-&gt;prepare($SQL_OUT);
+
+            if($query_in)
+            {
+                $result_IN = $query_in-&gt;execute(array($inArgs[1], $inArgs[0]));
+                if (!$result_IN)
+                {
+                    warn(&quot;Zabbix ReadData: Invalid query for IN value&quot; . $raw_in);
+                }
+                else
+                {
+                    $row_IN = $query_in-&gt;fetch(PDO::FETCH_ASSOC);
+                    $data[IN] = $row_IN['value'];
+                    if(!empty($row_IN['herror']))
+                        $data[IN] = null;
+                }
+            }
+            else
+            {
+                warn(&quot;Zabbix ReadData: Invalid query for IN value: $SQL_IN&quot;);
+            }
+
+            if ($query_out)
+            {
+                $result_OUT = $query_out-&gt;execute(array($outArgs[1], $outArgs[0]));
+                if (!$result_OUT)
+                {
+                    warn(&quot;Zabbix ReadData: Invalid query for OUT value&quot;);
+                }
+                else
+                {
+                        $row_OUT = $query_out-&gt;fetch(PDO::FETCH_ASSOC);
+                        $data[OUT] = $row_OUT['value'];
+                        $data_time = $row_OUT['clock'];
+                        if(!empty($row_OUT['herror']))
+                            $data[OUT] = null;
+                }
+            }
+            else
+            {
+                warn(&quot;Zabbix ReadData: Invalid query for OUT value: $SQL_OUT&quot;);
+            }
+        }
+
+        debug (&quot;RRD ReadData: Returning (&quot;.($data[IN]===NULL?'NULL':$data[IN]).&quot;,&quot;.($data[OUT]===NULL?'NULL':$data[IN]).&quot;,$data_time)n&quot;);
+        return( array($data[IN], $data[OUT], $data_time) );
+    }
+}</code></pre></noscript></div>
+
+
+<h2>Conclusion</h2>
+
+<p>I did it between 2am and 3am last friday&#8230; It works on my Zabbix server, I hope there is no bug.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA['snmp_build: unknown failure' error with Zabbix Server 2.0.4 on Debian 6]]></title>

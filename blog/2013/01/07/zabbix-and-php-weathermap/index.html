@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Macdarwin's thoughts</title>
+  <title>Zabbix and PHP Weathermap - Macdarwin's thoughts</title>
   <meta name="author" content="Guillaume Fradet">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://macdarwin.github.com/">
+  <link rel="canonical" href="http://macdarwin.github.com/blog/2013/01/07/zabbix-and-php-weathermap/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -74,15 +74,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/01/07/zabbix-and-php-weathermap/">Zabbix and PHP Weathermap</a></h1>
+      <h1 class="entry-title">Zabbix and PHP Weathermap</h1>
     
     
       <p class="meta">
@@ -105,7 +102,7 @@
   </header>
 
 
-  <div class="entry-content"><h2>My sources</h2>
+<div class="entry-content"><h2>My sources</h2>
 
 <p>There is out there some people that wonder about using <a href="http://www.network-weathermap.com/">PHP Weathermap</a>  into <a href="http://www.zabbix.com/">Zabbix</a> monitoring system like:</p>
 
@@ -262,74 +259,16 @@ class WeatherMapDataSource_zabbix extends WeatherMapDataSource {
 
 <p>I did it between 2am and 3am last friday&#8230; It works on my Zabbix server, I hope there is no bug.</p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/04/snmp-build-unknown-failure-error-with-zabbix-server-2-dot-0-4-on-debian-6/">&#8216;Snmp_build: Unknown Failure&#8217; Error With Zabbix Server 2.0.4 on Debian 6</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn">Guillaume Fradet</span></span>
 
-<time datetime="2013-01-04T13:36:00+01:00" pubdate data-updated="true">Jan 4<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>We have done a new install of Zabbix Server under Debian 6.</p>
-
-<p>We followed different how-to found on the web like <a href="https://www.zabbix.com/documentation/2.0/manual/installation/install">https://www.zabbix.com/documentation/2.0/manual/installation/install</a>  or <a href="http://denisrosenkranz.com/installation-de-zabbix-2-0-2-sous-debian-6/">http://denisrosenkranz.com/installation-de-zabbix-2-0-2-sous-debian-6/</a>.</p>
-
-<p>Everything works like a charm except some problems with the SNMP. In log error: <strong>&#8220;snmp_build: unknown failure&#8221;</strong>.</p>
-
-<p>In fact, the server wasn&#8217;t able to discover snmp service because:</p>
-
-<ul>
-<li>It needs MIBs to work well.</li>
-<li>Out of the box Debian don&#8217;t have any default MIBs installed on it because of license incompatibility.</li>
-</ul>
-
-
-<p>So we install <strong>snmp-mibs-downloader</strong> but this package is a <strong>non-free</strong> package. To be able to install it via apt-get we change our apt/sources.list to add non-free package.</p>
-
-<p>This <strong>&#8220;snmp_build: unknown failure&#8221;</strong> isn&#8217;t really explicit but solution is really easy.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/26/octopress-for-windows/">Octopress for Windows</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -341,106 +280,32 @@ class WeatherMapDataSource_zabbix extends WeatherMapDataSource {
   
 
 
-<time datetime="2012-12-26T21:15:00+01:00" pubdate data-updated="true">Dec 26<span>th</span>, 2012</time>
-        
-      </p>
+<time datetime="2013-01-07T17:48:00+01:00" pubdate data-updated="true">Jan 7<span>th</span>, 2013</time>
+      
+
+
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><h2>Installation of an Octopress Blog engine on Windows</h2>
-
-<p>First, sorry for my english that might sometimes be hard to understand sometimes&#8230;</p>
-
-<p>This post is only a simplification of all the steps needed to have an Octopress blog engine working on Windows. This is not really hard but information isn&#8217;t gathered in one place.</p>
-
-<p>As Octopress said: &#8220;You should be comfortable running shell commands and familiar with the basics of Git. If that sounds daunting, Octopress probably isn’t for you.&#8221;. The Windows version follows the same rule&#8230;</p>
-
-<h2>First of all the Prerequisites</h2>
-
-<p>Octopress need 3 components: Git, Ruby and Ruby&#8217;s DevKit. These components need to be <strong>in the Windows&#8217;s PATH</strong> so please click on the good checkbox during setup.</p>
-
-<ul>
-<li><strong>Git: <a href="http://git-scm.com/">http://git-scm.com/</a></strong></li>
-</ul>
-
-
-<p>The Widnows version of Git can be download easily from git&#8217;s official web site: <a href="http://git-scm.com/download/win">http://git-scm.com/download/win</a>.</p>
-
-<p>Download and follow the instructions (be careful, don&#8217;t forget to add Git to the windows PATH). Normally this step is already done if you use Git and Github.</p>
-
-<ul>
-<li><strong>Ruby : <a href="http://rubyinstaller.org/">http://rubyinstaller.org/</a></strong></li>
-</ul>
-
-
-<p>The best installer so far for Ruby on Windows, is made by RubyInstaller. You can download it here : <a href="http://rubyinstaller.org/downloads/">http://rubyinstaller.org/downloads/</a>.</p>
-
-<p>Download and follow the instructions. You have to add Ruby to the windows PATH. In the instructions that follow, the directory that you selected is identified as <code>&lt;RUBY_INSTALL_DIR&gt;</code>. Pay attention to the folder where you install Ruby, the path must not contain spaces.</p>
-
-<ul>
-<li><strong>Ruby&#8217;s DevKit : <a href="http://rubyinstaller.org/">http://rubyinstaller.org/</a></strong></li>
-</ul>
-
-
-<p>Once again RubyInstaller made a good job for this too. You can download it here : <a href="http://rubyinstaller.org/downloads/">http://rubyinstaller.org/downloads/</a> on the left under &#8220;Development Kit&#8221;.</p>
-
-<p>Download and unpack somewhere (ex: <code>C:\RubyDevKit</code>). In the instructions that follow, the directory that you selected is identified as <code>&lt;DEVKIT_INSTALL_DIR&gt;</code>. Once again, pay attention to the folder where you install it, the path must not contain spaces.</p>
-
-<p>Now you have to install the DevKit into your Ruby folder. To do that open a Command window and do the following:</p>
-
-<pre>
-cd <DEVKIT_INSTALL_DIR>
-ruby dk.rb init
-</pre>
-
-
-<p>If you choose a <code>&lt;RUBY_INSTALL_DIR&gt;</code> that is not the default one, you have to edit the <code>/config.yml</code> file (generated in the <code>&lt;DEVKIT_INSTALL_DIR&gt;</code>) and change the Ruby&#8217;s folder path.</p>
-
-<p>Continue with the following (in the same folder):</p>
-
-<pre>
-ruby dk.rb install
-</pre>
-
-
-<p>All the Prerequisites are installed now. We can go to the next step Octopress setup ;)</p>
-
-<h2>Octopress setup</h2>
-
-<p>Octopress setup is really easy, just clone the official Octopress repository : <a href="git://github.com/imathis/octopress.git">git://github.com/imathis/octopress.git</a> in a folder of your choice. In the instructions that follow, the directory that you selected is identified as <code>&lt;MY_BLOG_FOLDER&gt;</code>.</p>
-
-<p>You can now do the following in a Command Window:</p>
-
-<pre>
-cd <MY_BLOG_FOLDER>
-ruby --version # <- this should report Ruby version 1.9.3
-gem install bundler
-bundle install
-rake install
-</pre>
-
-
-<p>Well you have now a version of Octopress that just need to be deployed.</p>
-
-<h2>Next step and conclusion</h2>
-
-<p>To be fully functional you need to choose you deploying method (Github, Heroku, RSync&#8230;). I will not explain those steps; octopress.org already explains that very well. Follow the instruction in <a href="http://octopress.org/docs/deploying/">http://octopress.org/docs/deploying/</a> and Enjoy !</p>
-
-<p>I hope this post helps in some point.</p>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://macdarwin.github.com/blog/2013/01/07/zabbix-and-php-weathermap/" data-via="macdarwin" data-counturl="http://macdarwin.github.com/blog/2013/01/07/zabbix-and-php-weathermap/" >Tweet</a>
+  
+  
+  
 </div>
-  
-  
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/01/04/snmp-build-unknown-failure-error-with-zabbix-server-2-dot-0-4-on-debian-6/" title="Previous Post: 'snmp_build: unknown failure' error with Zabbix Server 2.0.4 on Debian 6">&laquo; 'snmp_build: unknown failure' error with Zabbix Server 2.0.4 on Debian 6</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
+
 <aside class="sidebar">
   
     <section>
@@ -452,7 +317,7 @@ rake install
       </li>
     
       <li class="post">
-        <a href="/blog/2013/01/04/snmp-build-unknown-failure-error-with-zabbix-server-2-dot-0-4-on-debian-6/">&#8216;snmp_build: unknown failure&#8217; error with Zabbix Server 2.0.4 on Debian 6</a>
+        <a href="/blog/2013/01/04/snmp-build-unknown-failure-error-with-zabbix-server-2-dot-0-4-on-debian-6/">'snmp_build: unknown failure' error with Zabbix Server 2.0.4 on Debian 6</a>
       </li>
     
       <li class="post">
@@ -466,7 +331,7 @@ rake install
 <section>
   <h1>Latest Tweets</h1>
   <ul id="tweets">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   <script type="text/javascript">
     $.domReady(function(){
@@ -485,6 +350,7 @@ rake install
 
   
 </aside>
+
 
     </div>
   </div>
